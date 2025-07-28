@@ -6,6 +6,7 @@ https://documenter.getpostman.com/view/32615945/2sB3B7PZU9
 
 # Slides:
 https://www.canva.com/design/DAGuect-BDY/HJFAoAzwjWdR9EhPG_woeg/edit?utm_content=DAGuect-BDY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ---
 
 ## 1. `outOfStockMerchants(String merchantID)`
