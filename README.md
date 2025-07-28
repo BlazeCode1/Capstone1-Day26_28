@@ -1,6 +1,6 @@
 #  Advanced Endpoints – Amazon Clone Backend
 
-This document describes **5 business-driven methods** added to the backend system to enhance functionality beyond basic CRUD. These methods simulate realistic marketplace logic for merchant management, analytics, and purchase regulation.
+This document describes **5 business-driven methods** added to the backend system.
 
 ---
 
