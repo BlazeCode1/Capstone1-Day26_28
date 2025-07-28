@@ -35,6 +35,7 @@ public class MerchantStockService {
         if(checkIfProductFound(merchantStock.getProductID())) return 3;
 
         merchantStock.setStockAddedDate(LocalDate.now());
+        merchantStock.setClearance(false);
         merchantStocks.add(merchantStock);
 
         return 4;

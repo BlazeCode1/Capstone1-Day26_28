@@ -71,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping("/analytics/top-products/{limit}/{start}/{end}")
-    public ResponseEntity<?> topFiveProductSold(@PathVariable String start,@PathVariable String end,@PathVariable int limit){
+    public ResponseEntity<?> getTopProductSold(@PathVariable String start,@PathVariable String end,@PathVariable int limit){
         if(productService.getAllProducts().isEmpty())
             return ResponseEntity.badRequest().body(new ApiResponse("Product List Is Empty"));
         ArrayList<Product> result = productService.topFiveProductsPurchased(start,end,limit);

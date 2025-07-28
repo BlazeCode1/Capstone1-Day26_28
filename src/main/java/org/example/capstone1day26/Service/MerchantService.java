@@ -49,9 +49,6 @@ public class MerchantService {
     }
 
 
-    //TODO: Fourth method
-
-
 
 
 

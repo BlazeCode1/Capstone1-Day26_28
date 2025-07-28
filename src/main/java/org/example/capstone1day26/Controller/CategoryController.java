@@ -54,9 +54,5 @@ public class CategoryController {
         return ResponseEntity.badRequest().body(new ApiResponse("Category With Given ID not Found"));
     }
 
-//    //Third method
-//    @GetMapping("/popular")
-//    public ResponseEntity<?> getPopularCategory(){
-//        return ResponseEntity.ok(categoryService.getPopularCategory());
-//    }
+
 }
