@@ -6,7 +6,6 @@ import org.example.capstone1day26.Model.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -15,7 +14,6 @@ public class MerchantStockService {
     private final ProductService productService;
     private final MerchantService merchantService;
     private final UserService userService;
-    private final CategoryService categoryService;
     ArrayList<MerchantStock> merchantStocks = new ArrayList<>();
 
     public ArrayList<MerchantStock> getAllMerchantStocks(){
@@ -93,7 +91,6 @@ public class MerchantStockService {
         Product targetProduct= null;
         User targetUser= null;
         MerchantStock targetStock = null;
-        Category targetCategory = null;
         for(Product p : productService.getAllProducts()){
             if(p.getID().equals(productID)){
                 targetProduct = p;
@@ -168,8 +165,9 @@ public class MerchantStockService {
     }
 
     //TODO: THIRD METHOD
-
-    public boolean triggerClearance(String merchantID){
+    //Admin
+    public int triggerClearance(String adminID,String merchantID){
+        if(!isUserAdmin(adminID)) return 0;
         LocalDate today = LocalDate.now();
         LocalDate cutOff = today.minusDays(45);
         boolean anyClearanceTriggered = false;
@@ -189,13 +187,16 @@ public class MerchantStockService {
                 anyClearanceTriggered = true;
             }
 
-
+        if(anyClearanceTriggered){
+            return 2; //clearance was triggered for at least one product.
+        }
 
         }
-        return anyClearanceTriggered;
+        return 1; //no products met the criteria.
     }
-
-    public String evaluateCommissionTier(String merchantID){
+    //Admin
+    public String evaluateCommissionTier(String adminID,String merchantID){
+        if(!isUserAdmin(adminID)) return "Access Denied: Only admins can evaluate Commission Tier.";
         Merchant targetMerchant = null;
         double totalRevenue = 0;
         for (Merchant m: merchantService.getAllMerchants()){
@@ -221,7 +222,7 @@ public class MerchantStockService {
 
                     if(matchedProduct != null){
                         double price = stock.isClearance() ? stock.getClearancePrice() : matchedProduct.getPrice();
-                        totalRevenue += price * stock.getPurchaseCount();;
+                        totalRevenue += price * stock.getPurchaseCount();
                     }
                 }
 
@@ -243,8 +244,9 @@ public class MerchantStockService {
                 + (commissionRate * 100) + "% commission rate applied.";
     }
 
-
-    public String evaluatingMerchantViolation(String merchantID){
+    //Admin
+    public String evaluatingMerchantViolation(String adminID,String merchantID){
+        if(!isUserAdmin(adminID)) return "Access Denied: Only admins can evaluate Commission Tier.";
         Merchant targetMerchant = null;
         for (Merchant m : merchantService.getAllMerchants()){
             if(merchantID.equals(m.getID())){
@@ -328,6 +330,15 @@ public class MerchantStockService {
 
 
 
+
+    public boolean isUserAdmin(String ID){
+        for (User u: userService.getAllUsers()){
+
+            if(u.getID().equals(ID) && u.getRole().equals("admin"))
+                return true;
+        }
+        return false;
+    }
 
 
     //Helper Methods

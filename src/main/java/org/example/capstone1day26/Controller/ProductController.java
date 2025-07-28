@@ -70,11 +70,14 @@ public class ProductController {
         return ResponseEntity.badRequest().body(new ApiResponse("Product ID, Not Found"));
     }
 
-    @GetMapping("/analytics/top-products/{limit}/{start}/{end}")
-    public ResponseEntity<?> getTopProductSold(@PathVariable String start,@PathVariable String end,@PathVariable int limit){
+    @GetMapping("/analytics/top-products/{adminID}/{limit}/{start}/{end}")
+    public ResponseEntity<?> getTopProductSold(@PathVariable String adminID,@PathVariable String start,@PathVariable String end,@PathVariable int limit){
         if(productService.getAllProducts().isEmpty())
             return ResponseEntity.badRequest().body(new ApiResponse("Product List Is Empty"));
-        ArrayList<Product> result = productService.topFiveProductsPurchased(start,end,limit);
+        ArrayList<Product> result = productService.topProductsPurchased(adminID,start,end,limit);
+        if(result == null){
+            return ResponseEntity.badRequest().body(new ApiResponse("UnAuthorized Access.. only admins can use this endpoint"));
+        }
         if(result.isEmpty())
             return ResponseEntity.badRequest().body(new ApiResponse("No Products With Given Interval"));
         return ResponseEntity.ok(result);

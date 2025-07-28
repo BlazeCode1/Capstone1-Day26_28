@@ -111,33 +111,33 @@ public class MerchantStockController {
 
     }
 
-    @PostMapping("/trigger-clearance/{merchantID}")
-    public ResponseEntity<?> triggerClearance(@PathVariable String merchantID) {
-        if (merchantStockService.getAllMerchantStocks().isEmpty()) {
-            return ResponseEntity.badRequest().body(new ApiResponse("Merchant stock is empty"));
-        }
+    @PostMapping("/trigger-clearance/{adminID}/{merchantID}")
+    public ResponseEntity<?> triggerClearance(@PathVariable String adminID, @PathVariable String merchantID) {
+        int result = merchantStockService.triggerClearance(adminID, merchantID);
 
-        boolean cleared = merchantStockService.triggerClearance(merchantID);
-
-        if (cleared) {
-            return ResponseEntity.ok(new ApiResponse("Clearance applied successfully."));
-        }
-
-        return ResponseEntity.badRequest().body(new ApiResponse("Merchant is not eligible for clearance."));
+        return switch (result) {
+            case 0 -> ResponseEntity.badRequest().body("Access Denied: Only admins can trigger clearance.");
+            case 1 -> ResponseEntity.ok("No eligible products for clearance.");
+            case 2 -> ResponseEntity.ok("Clearance campaign triggered successfully.");
+            default -> ResponseEntity.internalServerError().body("Unexpected error.");
+        };
     }
 
-    @PostMapping("/evaluate-commission-tier/{merchantID}")
-    public ResponseEntity<?> evaluateCommissionTier(@PathVariable String merchantID){
-        String result = merchantStockService.evaluateCommissionTier(merchantID);
+    @PostMapping("/evaluate-commission-tier/{adminID}/{merchantID}")
+    public ResponseEntity<?> evaluateCommissionTier(@PathVariable String adminID,@PathVariable String merchantID){
+        String result = merchantStockService.evaluateCommissionTier(adminID,merchantID);
         if(result == null){
             return ResponseEntity.badRequest().body(new ApiResponse("Invalid Merchant ID"));
         }
+        if(result.equalsIgnoreCase("Access Denied: Only admins can evaluate Commission Tier."))
+            return ResponseEntity.badRequest().body(new ApiResponse(result));
+
         return ResponseEntity.ok(new ApiResponse(result));
     }
 
-    @PostMapping("/evaluating-merchant-violation/{merchantID}")
-    public ResponseEntity<?> evaluatingMerchantViolation(@PathVariable String merchantID){
-        String result = merchantStockService.evaluatingMerchantViolation(merchantID);
+    @PostMapping("/evaluating-merchant-violation/{adminID}/{merchantID}")
+    public ResponseEntity<?> evaluatingMerchantViolation(@PathVariable String adminID,@PathVariable String merchantID){
+        String result = merchantStockService.evaluatingMerchantViolation(adminID,merchantID);
         return ResponseEntity.ok(new ApiResponse(result));
     }
 

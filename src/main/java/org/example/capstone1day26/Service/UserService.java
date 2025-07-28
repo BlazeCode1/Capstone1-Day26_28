@@ -10,6 +10,9 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class UserService {
     ArrayList<User> users = new ArrayList<>();
+
+
+
     public ArrayList<User> getAllUsers(){
         return users;
     }
@@ -21,9 +24,11 @@ public class UserService {
                 return false;
             }
         }
+
         users.add(user);
         return true;
     }
+
 
     public boolean updateUser(User user){
         for (User u : users){

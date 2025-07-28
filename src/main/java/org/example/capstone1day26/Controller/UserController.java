@@ -24,12 +24,12 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@Valid @RequestBody User user, Errors err){
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user, Errors err){
         if(err.hasErrors()){
             return ResponseEntity.badRequest().body(err.getFieldError().getDefaultMessage());
         }
         if(userService.addUser(user)){
-            return ResponseEntity.ok(new ApiResponse("User Added Successfully"));
+            return ResponseEntity.ok(new ApiResponse("User registered Successfully"));
         }
         return ResponseEntity.badRequest().body(new ApiResponse("User ID Already Used"));
     }

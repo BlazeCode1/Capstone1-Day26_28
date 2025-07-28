@@ -3,12 +3,12 @@ package org.example.capstone1day26.Service;
 import lombok.RequiredArgsConstructor;
 import org.example.capstone1day26.Model.Category;
 import org.example.capstone1day26.Model.Product;
+import org.example.capstone1day26.Model.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +16,7 @@ public class ProductService {
 
     ArrayList<Product> products = new ArrayList<>();
     private final CategoryService categoryService;
+    private final UserService userService;
     public ArrayList<Product> getAllProducts(){
         return products;
     }
@@ -72,7 +73,8 @@ public class ProductService {
     }
 
     //Second Method
-    public ArrayList<Product> topFiveProductsPurchased(String start, String end,int userLimit){
+    public ArrayList<Product> topProductsPurchased(String adminID,String start, String end,int userLimit){
+        if(!isUserAdmin(adminID)) return null; // if adminID is correct result will be false and continue with the service
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         ArrayList<Product> productsWithinRange = new ArrayList<>();
@@ -90,6 +92,15 @@ public class ProductService {
         int limit = Math.min(userLimit,productsWithinRange.size());
         //then sub listing to see last Five products
         return new ArrayList<>(productsWithinRange.subList(0,limit));
+    }
+
+
+    public boolean isUserAdmin(String ID){
+        for (User u : userService.getAllUsers()){
+            if(ID.equals(u.getID()) && u.getRole().equalsIgnoreCase("admin"))
+                return true;
+        }
+        return false;
     }
 
 }
