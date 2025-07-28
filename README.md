@@ -1,6 +1,11 @@
 #  Advanced Endpoints – Amazon Clone Backend
 
 This document describes **5 business-driven methods** added to the backend system.
+# Postman
+https://documenter.getpostman.com/view/32615945/2sB3B7PZU9
+
+# Slides:
+https://www.canva.com/design/DAGuect-BDY/HJFAoAzwjWdR9EhPG_woeg/edit?utm_content=DAGuect-BDY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ---
 
@@ -50,7 +55,3 @@ If `violationCount ≥ 5`, the merchant is:
 **Service**: `ProductService`  
 Returns the top-selling products in a specified date range. Sorts by `totalSold` and returns up to the `userLimit` specified.
 
-
-
-# Slides:
-https://www.canva.com/design/DAGuect-BDY/HJFAoAzwjWdR9EhPG_woeg/edit?utm_content=DAGuect-BDY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
