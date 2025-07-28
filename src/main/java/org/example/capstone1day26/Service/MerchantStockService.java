@@ -246,7 +246,7 @@ public class MerchantStockService {
 
     //Admin
     public String evaluatingMerchantViolation(String adminID,String merchantID){
-        if(!isUserAdmin(adminID)) return "Access Denied: Only admins can evaluate Commission Tier.";
+        if(!isUserAdmin(adminID)) return "Access Denied: Only admins can evaluate Merchant Violation.";
         Merchant targetMerchant = null;
         for (Merchant m : merchantService.getAllMerchants()){
             if(merchantID.equals(m.getID())){
