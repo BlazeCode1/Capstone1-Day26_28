@@ -173,7 +173,7 @@ public class MerchantStockService {
         boolean anyClearanceTriggered = false;
         for (MerchantStock m : merchantStocks){
             if(merchantID.equals(m.getMerchantID())) {
-                if(m.getStock() <=20 || m.getPurchaseCount() <=5) continue;
+                if(m.getStock() <=20) continue;
 
 
                 if(m.getStockAddedDate() == null || !m.getStockAddedDate().isBefore(cutOff)) continue;
