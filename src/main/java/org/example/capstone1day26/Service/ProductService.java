@@ -73,8 +73,7 @@ public class ProductService {
     }
 
     //Second Method
-    public ArrayList<Product> topProductsPurchased(String adminID,String start, String end,int userLimit){
-        if(!isUserAdmin(adminID)) return null; // if adminID is correct result will be false and continue with the service
+    public ArrayList<Product> topProductsPurchased(String start, String end,int userLimit){
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         ArrayList<Product> productsWithinRange = new ArrayList<>();
